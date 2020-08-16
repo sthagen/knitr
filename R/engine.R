@@ -455,10 +455,16 @@ eng_block2 = function(options) {
   h4 = options$html.after %n% ''
   h5 = options$html.before2 %n% ''
   h6 = options$html.after2 %n% ''
+  if (is_latex_output()) {
+    h7 = h8 = '\n'
+  } else {
+    h7 = sprintf('<%s class="%s">', h2, type)
+    h8 = sprintf('</%s>', h2)
+  }
 
   sprintf(
-    '\\BeginKnitrBlock{%s}%s%s<%s class="%s">%s%s%s</%s>%s\\EndKnitrBlock{%s}',
-    type, l1, h3, h2, type, h5, code, h6, h2, h4, type
+    '\\BeginKnitrBlock{%s}%s%s%s%s%s%s%s%s\\EndKnitrBlock{%s}',
+    type, l1, h3, h7, h5, code, h6, h8, h4, type
   )
 }
 
@@ -573,7 +579,7 @@ eng_sql = function(options) {
 
       # force left alignment if the first column is an incremental id column
       first_column = display_data[[1]]
-      if (is.numeric(first_column) && all(diff(first_column) == 1))
+      if (is.numeric(first_column) && length(first_column) > 1 && all(diff(first_column) == 1))
         display_data[[1]] = as.character(first_column)
 
       # wrap html output in a div so special styling can be applied

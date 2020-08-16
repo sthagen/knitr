@@ -142,7 +142,7 @@ block_exec = function(options) {
     chunk_device(options, keep != 'none', tmp.fig)
     dv = dev.cur()
     if (!opts_knit$get('global.device')) on.exit(dev.off(dv), add = TRUE)
-    showtext(options$fig.showtext)  # showtext support
+    showtext(options)  # showtext support
   }
   # preserve par() settings from the last code chunk
   if (keep.pars) par2(opts_knit$get('global.pars'))
@@ -324,13 +324,9 @@ chunk_device = function(options, record = TRUE, tmp = tempfile()) {
       filename = tmp, width = width, height = height, units = 'in', res = dpi
     ), get_dargs(dev.args, 'png')))
   } else if (identical(dev, 'ragg_png')) {
-    # handle bg -> background gracefully
-    args = dev.args$ragg_png %n% dev.args
-    args$background = args$background %n% args$bg
-    args$bg = NULL
-    do.call(ragg::agg_png, c(list(
+    do.call(ragg_png_dev, c(list(
       filename = tmp, width = width, height = height, units = 'in', res = dpi
-    ), args))
+    ), get_dargs(dev.args, 'ragg_png')))
   } else if (identical(dev, 'tikz')) {
     dargs = c(list(
       file = tmp, width = width, height = height

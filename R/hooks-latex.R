@@ -13,8 +13,8 @@
 #'
 #' In most cases we do not need to call these hooks explicitly, and they were
 #' designed to be used internally. Sometimes we may not be able to record R
-#' plots using \code{\link[grDevices]{recordPlot}}, and we can make use of these
-#' hooks to insert graphics output in the output document; see
+#' plots using \code{grDevices::\link{recordPlot}()}, and we can make use of
+#' these hooks to insert graphics output in the output document; see
 #' \code{\link{hook_plot_custom}} for details.
 #' @param x Filename for the plot (a character string).
 #' @param options A list of the current chunk options.
@@ -57,9 +57,17 @@ hook_plot_tex = function(x, options) {
 
   rw = options$resize.width
   rh = options$resize.height
+  rc = options$resize.command
   resize1 = resize2 = ''
-  if (!is.null(rw) || !is.null(rh)) {
-    resize1 = sprintf('\\resizebox{%s}{%s}{', rw %n% '!', rh %n% '!')
+  if (is.null(rc)) {
+    if (!is.null(rw) || !is.null(rh)) {
+      resize1 = sprintf('\\resizebox{%s}{%s}{', rw %n% '!', rh %n% '!')
+      resize2 = '} '
+    }
+  } else {
+    # users can specify a custom "resize" command (we can use an arbitrary
+    # command, e.g., framebox)
+    resize1 = paste0('\\', rc, '{')
     resize2 = '} '
   }
 
@@ -114,7 +122,7 @@ hook_plot_tex = function(x, options) {
     }
     # Add subfloat code if needed
     if (usesub) {
-      sub1 = sprintf('\\subfloat[%s%s]{', subcap, create_label(lab, fig.cur, latex = TRUE))
+      sub1 = sprintf('\\subfloat[%s%s]{', subcap, create_label(lab, '-', fig.cur, latex = TRUE))
       sub2 = '}'
       sep.cur = fig.sep[fig.cur]; if (is.na(sep.cur)) sep.cur = NULL
     }
@@ -129,7 +137,7 @@ hook_plot_tex = function(x, options) {
       scap = if (is.null(scap) || is.na(scap)) '' else sprintf('[%s]', scap)
       cap = if (cap == '') '' else sprintf(
         '\\caption%s{%s}%s\n', scap, cap,
-        create_label(lab, if (mcap) fig.cur, latex = TRUE)
+        create_label(lab, if (mcap) c('-', fig.cur), latex = TRUE)
       )
       fig2 = sprintf('%s\\end{%s}\n', cap, options$fig.env)
     }
