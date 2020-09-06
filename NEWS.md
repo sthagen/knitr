@@ -2,11 +2,15 @@
 
 ## NEW FEATURES
 
+- Added `knitr::hooks_*()` functions to get a list of output hooks for a specific format. Previously, these hooks only exist inside the `knitr::render_*()` functions, and users do not have direct access to them. Now they can be accessed directly, e.g., via `knitr::hooks_markdown()` to get a list of output hooks for R Markdown documents. You can also set the output hooks individually, e.g., `knitr::knit_hooks$set(knitr::hooks_markdown()['source'])` only sets the _source_ ouput hook. See more on output hooks at https://yihui.org/knitr/hooks/#output-hooks and https://bookdown.org/yihui/rmarkdown-cookbook/output-hooks.html (thanks, @cderv, #1889).
+
 - Added an argument `lib.loc` to `knitr::write_bib()`.
 
 ## BUG FIXES
 
 - The option `fig_caption = FALSE` for `rmarkdown::html_document()` was unable to suppress the figure captions in some cases.
+
+- When the option `options(OutDec = )` is set to a value other than `"."`, percentages in the chunk options `out.width` and `out.height` do not work (thanks, @omgitsmoe, #1887).
 
 ## MINOR CHANGES
 
