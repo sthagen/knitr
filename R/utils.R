@@ -307,6 +307,12 @@ fix_options = function(options) {
     }
   }
 
+  if (options$collapse) {
+    options[unlist(lapply(
+      c('class.', 'attr.'), paste0, c('output', 'message', 'warning', 'error')
+    ))] = NULL
+  }
+
   options
 }
 
@@ -715,6 +721,8 @@ kpsewhich = function() {
 has_utility = function(name, package = name) {
   name2 = paste('util', name, sep = '_')  # e.g. util_pdfcrop
   if (is.logical(yes <- opts_knit$get(name2))) return(yes)
+  # a special case: use tools::find_gs_cmd() to find ghostscript
+  if (name == 'ghostscript') name = tools::find_gs_cmd()
   yes = nzchar(Sys.which(name))
   if (!yes) warning(package, ' not installed or not in PATH')
   opts_knit$set(setNames(list(yes), name2))
@@ -763,10 +771,10 @@ knit_handlers = function(fun, options) {
   }))
 }
 
+# TODO: the following functions have been moved to xfun
 # conditionally disable some features during R CMD check
 is_R_CMD_check = function() {
-  ('CheckExEnv' %in% search()) ||
-    any(c('_R_CHECK_TIMINGS_', '_R_CHECK_LICENSE_') %in% names(Sys.getenv()))
+  !is.na(check_package_name())
 }
 
 is_CRAN_incoming = function() {
@@ -1005,7 +1013,7 @@ make_unique = function(x) {
 #' @return The data URI as a character string.
 #' @author Wush Wu and Yihui Xie
 #' @export
-#' @references \url{http://en.wikipedia.org/wiki/Data_URI_scheme}
+#' @references \url{https://en.wikipedia.org/wiki/Data_URI_scheme}
 #' @examples uri = image_uri(file.path(R.home('doc'), 'html', 'logo.jpg'))
 #' if (interactive()) {cat(sprintf('<img src="%s" />', uri), file = 'logo.html')
 #' browseURL('logo.html') # you can check its HTML source

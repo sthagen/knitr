@@ -1,8 +1,13 @@
 # knitr
 
-[![Status de Compilação](https://travis-ci.com/yihui/knitr.svg)](https://travis-ci.com/yihui/knitr)
-[![Status da Cobertura de Código](https://codecov.io/gh/yihui/knitr/branch/master/graph/badge.svg)](https://codecov.io/github/yihui/knitr?branch=master)
-[![Downloads do espelho RStudio CRAN](http://cranlogs.r-pkg.org/badges/knitr)](https://cran.r-project.org/package=knitr)
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/yihui/knitr/workflows/R-CMD-check/badge.svg)](https://github.com/yihui/knitr/actions?query=workflow%3AR-CMD-check)
+[![Check with knitr examples](https://github.com/yihui/knitr/workflows/Check%20with%20knitr%20examples/badge.svg)](https://github.com/yihui/knitr/actions?query=workflow%3A%22Check+with+knitr+examples%22)
+[![test-coverage](https://github.com/yihui/knitr/workflows/test-coverage/badge.svg)](https://github.com/yihui/knitr/actions?query=workflow%3Atest-coverage)
+[![Coverage status](https://codecov.io/gh/yihui/knitr/branch/master/graph/badge.svg)](https://codecov.io/github/yihui/knitr?branch=master)
+[![Downloads from the RStudio CRAN mirror](http://cranlogs.r-pkg.org/badges/knitr)](https://cran.r-project.org/package=knitr)
+[![Lock threads](https://github.com/yihui/knitr/workflows/Lock%20threads/badge.svg)](https://github.com/yihui/knitr/actions?query=workflow%3A%22Lock+threads%22)
+<!-- badges: end -->
 
 O pacote R **knitr** é um motor de programação literata (o *literate programming* de Donald Knuth) de propósito geral, com API's leves desenhadas para dar aos usuários controle total das saídas, sem trabalho pesado de codificação. Ele combina muitas funcionalidades em um único pacote com pequenos ajustes motivados pelo meu uso diário do Sweave. Vejam a [homepage](https://yihui.org/knitr/) do pacote para detalhes e exemplos. Vejam os [FAQ's](https://yihui.org/knitr/faq/) para uma lista de perguntas (incluindo sobre onde levantar questões).
 
@@ -64,7 +69,7 @@ minhas mãos estão atadas, por exemplo:
 - ...
 
 
-[<img src="http://i.imgur.com/yYw46aF.jpg" align="right" alt="Livro Dynamic Documents with R and knitr" />](https://amzn.com/1498716962)
+[<img src="http://i.imgur.com/yYw46aF.jpg" align="right" alt="Livro Dynamic Documents with R and knitr" />](https://www.amazon.com/dp/1498716962/)
 
 O pacote  **knitr** foi desenhado para dar ao usuário acesso à todas as partes do processo de lidar com um documento de programação literata, então não há
 necessidade de hackear nenhum componente do núcleo se você quiser mais liberdade.
@@ -85,7 +90,7 @@ knit(input)
 Se as opções não forem explicitadas, **knitr** vai tentar adivinhar
 configurações-padrão razoáveis. Alguns manuais estão disponíveis, como o
 [manual principal](https://yihui.org/knitr/demo/manual/), e o [manual de gráficos](https://yihui.org/knitr/demo/graphics/). Para uma referência
-organizada, ver o [livro do knitr](https://amzn.com/1498716962).
+organizada, ver o [livro do knitr](https://www.amazon.com/dp/1498716962/).
 
 ## Licença
 
