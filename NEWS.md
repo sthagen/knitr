@@ -1,5 +1,29 @@
+# CHANGES IN knitr VERSION 1.34
+
+
 # CHANGES IN knitr VERSION 1.33
 
+## NEW FEATURES
+
+- Exported the internal functions `sew()` (previously named `wrap()`) and `is_low_change()` to make it possible for other graphics systems such as **rgl** to work in **knitr** like base and grid graphics in base R (thanks, @dmurdoch, #1892 #1853).
+
+- For `sql` code chunks, parameterized queries will be executed through native database api if the chunk option `params` is provided (thanks, @byapparov, #1987).
+
+## BUG FIXES
+
+- Reverted the fix for #1595 since it caused problems in **kableExtra** (thanks, @bttomio, haozhu233/kableExtra#607), and applied a different fix to the original problem (i.e., add `{}` before `[`).
+
+## MAJOR CHANGES
+
+- The internal S3 generic function `wrap()` has been renamed to `sew()`.
+
+## MINOR CHANGES
+
+- For package vignettes that use the vignette engine `knitr::docco_linear` or `knitr::docco_classic`, **knitr** will signal an error during `R CMD build` if the **markdown** package is not declared as a soft dependency in the `Suggests` field in `DESCRIPTION`. The same treatment has been applied in the previous version of **knitr** for the vignette engine `knitr::knitr` (#1864).
+
+- `R CMD build` will signal an error when a package uses R Markdown vignettes to be build with the **rmarkdown** package but the **rmarkdown** package is not installed (thanks, @nsheff, #1864).
+
+- The `force_v1` argument of `knit2html()` defaults to `getOption('knitr.knit2html.force_v1', FALSE)` now, which means its value can be configured via a global option.
 
 # CHANGES IN knitr VERSION 1.32
 
@@ -35,7 +59,7 @@
 
 - For Rnw documents, the commented `%\begin{document}` will no longer cause trouble (thanks, @NewbieKnitter @shrektan, #1819).
 
-- Fixed an issue with the chunk option `fig.alt` causing figures to disappear in `rmarkdownn::word_document()` output. This option is currently supported for HTML output only. If provided for office output in **rmarkdown**, it will emit a warning and be ignored (#1966).
+- Fixed an issue with the chunk option `fig.alt` causing figures to disappear in `rmarkdown::word_document()` output. This option is currently supported for HTML output only. If provided for office output in **rmarkdown**, it will emit a warning and be ignored (#1966).
 
 - Spaces in messages were not properly escaped in `.Rnw` documents (thanks, @elbersb, #1978).
 
