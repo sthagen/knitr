@@ -499,7 +499,7 @@ sew.knit_asis = function(x, options, inline = FALSE, ...) {
 sew.source = function(x, options, ...) {
   if (isFALSE(options$echo)) return()
   src = sub('\n$', '', x$src)
-  if (!options$collapse && options$strip.white) src = strip_white(src)
+  if (options$strip.white) src = strip_white(src)
   if (is_blank(src)) return()  # an empty chunk
   knit_hooks$get('source')(src, options)
 }
@@ -533,12 +533,12 @@ sew.warning = function(x, options, ...) {
     call = deparse(x$call)[1]
     if (call == 'eval(expr, envir, enclos)') '' else paste(' in', call)
   }
-  msg_wrap(sprintf('Warning%s: %s', call, x$message), 'warning', options)
+  msg_wrap(sprintf('Warning%s: %s', call, conditionMessage(x)), 'warning', options)
 }
 
 #' @export
 sew.message = function(x, options, ...) {
-  msg_wrap(paste(x$message, collapse = ''), 'message', options)
+  msg_wrap(paste(conditionMessage(x), collapse = ''), 'message', options)
 }
 
 #' @export
@@ -631,7 +631,7 @@ sew.knit_embed_url = function(x, options = opts_chunk$get(), inline = FALSE, ...
   options = reduce_plot_opts(options)
   if (length(extra <- options$out.extra)) extra = paste('', extra, collapse = '')
   add_html_caption(options, sprintf(
-    '<iframe src="%s" width="%s" height="%s"%s></iframe>',
+    '<iframe src="%s" width="%s" height="%s" data-external="1"%s></iframe>',
     escape_html(x$url), options$out.width %n% '100%', x$height %n% '400px',
     extra %n% ''
   ))
@@ -698,6 +698,9 @@ knit_print.default = function(x, ..., inline = FALSE) {
 
 #' @export
 knit_print.knit_asis = function(x, ...) x
+
+#' @export
+knit_print.knit_asis_url = function(x, ...) x
 
 #' @rdname knit_print
 #' @export
